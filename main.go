@@ -1,7 +1,7 @@
 package main
 
 import (
-	_ "friendly_chats/routers"
+	_ "go_friendly_chat/routers"
 
 	"github.com/astaxie/beego"
 )
