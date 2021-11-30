@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"fmt"
 	"go_friendly_chat/controllers/requests"
 	"log"
@@ -41,24 +42,67 @@ type Chat struct {
 }
 
 func AddChat(c Chat) error {
+	if !db.NewRecord(c) {
+		log.Println("NewRecord error")
+		return errors.New("NewRecord error")
+	}
+	err := db.Create(&c).Error
+	if err != nil {
+		log.Println("Create error")
+		return err
+	}
 	return nil
 }
 
 func GetChat(id string) (*Chat, error) {
 	var chat Chat
 
+	db.First(&chat, id)
+	if chat.Id == 0 {
+		log.Println("not found chat error")
+		return nil, errors.New("not found chat error")
+	}
+
 	return &chat, nil
 }
 
 func GetAllChats() []Chat {
 	var allChats []Chat
+	db.Find(&allChats)
 	return allChats
 }
 
 func UpdateChat(id string, updateChat requests.UpdateChat) error {
+	var chat Chat
+	db.First(&chat, id)
+	if chat.Id == 0 {
+		log.Println("not found chat error")
+		return nil
+	}
+
+	chat.Message = updateChat.Message
+
+	err := db.Save(&chat).Error
+	if err != nil {
+		log.Println("Update error")
+		return err
+	}
 	return nil
 }
 
 func DeleteChat(id string) error {
+	var chat Chat
+	db.First(&chat, id)
+	if chat.Id == 0 {
+		log.Println("not found chat error")
+		return nil
+	}
+
+	err := db.Delete(&chat).Error
+	if err != nil {
+		log.Println("Delete error")
+		return err
+	}
+
 	return nil
 }
