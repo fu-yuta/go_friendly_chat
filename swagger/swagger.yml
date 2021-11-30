@@ -2,151 +2,126 @@ swagger: "2.0"
 info: {}
 basePath: /v1
 paths:
-  /user/:
+  /chat/:
     get:
       tags:
-      - user
-      description: get all Users
-      operationId: UserController.GetAll
+      - chat
+      description: get all Chats
+      operationId: ChatController.GetAll
       responses:
         "200":
           description: ""
           schema:
-            $ref: '#/definitions/models.User'
+            $ref: '#/definitions/responses.Chats'
     post:
       tags:
-      - user
-      description: create users
-      operationId: UserController.CreateUser
+      - chat
+      description: create message
+      operationId: ChatController.CreateChatMessage
       parameters:
       - in: body
         name: body
         description: body for user content
         required: true
         schema:
-          $ref: '#/definitions/models.User'
+          $ref: '#/definitions/requests.Chat'
       responses:
-        "200":
-          description: '{int} models.User.Id'
+        "201":
+          description: ""
         "403":
-          description: body is empty
-  /user/{uid}:
+          description: ': requests.Chat is empty'
+        "500":
+          description: internal server error
+  /chat/{id}:
     get:
       tags:
-      - user
-      description: get user by uid
-      operationId: UserController.Get
+      - chat
+      description: get chat by id
+      operationId: ChatController.Get
       parameters:
       - in: path
-        name: uid
-        description: The key for staticblock
-        required: true
+        name: id
+        description: "true"
         type: string
       responses:
         "200":
           description: ""
           schema:
-            $ref: '#/definitions/models.User'
+            $ref: '#/definitions/responses.Chat'
         "403":
-          description: :uid is empty
+          description: :id is empty
+        "404":
+          description: :chat is not found
     put:
       tags:
-      - user
-      description: update the user
-      operationId: UserController.Update
+      - chat
+      description: update the chat
+      operationId: ChatController.Update
       parameters:
       - in: path
-        name: uid
-        description: The uid you want to update
-        required: true
+        name: id
+        description: "true"
         type: string
       - in: body
         name: body
-        description: body for user content
-        required: true
+        description: "true"
         schema:
-          $ref: '#/definitions/models.User'
+          $ref: '#/definitions/requests.UpdateChat'
       responses:
-        "200":
+        "201":
           description: ""
-          schema:
-            $ref: '#/definitions/models.User'
         "403":
-          description: :uid is not int
+          description: :id is not int
+        "500":
+          description: internal server error
     delete:
       tags:
-      - user
-      description: delete the user
-      operationId: UserController.Delete
+      - chat
+      description: delete the chat
+      operationId: ChatController.Delete
       parameters:
       - in: path
-        name: uid
-        description: The uid you want to delete
-        required: true
+        name: id
+        description: "true"
         type: string
       responses:
-        "200":
-          description: '{string} delete success!'
+        "201":
+          description: ""
         "403":
-          description: uid is empty
-  /user/login:
-    get:
-      tags:
-      - user
-      description: Logs user into the system
-      operationId: UserController.Login
-      parameters:
-      - in: query
-        name: username
-        description: The username for login
-        required: true
-        type: string
-      - in: query
-        name: password
-        description: The password for login
-        required: true
-        type: string
-      responses:
-        "200":
-          description: '{string} login success'
-        "403":
-          description: user not exist
-  /user/logout:
-    get:
-      tags:
-      - user
-      description: Logs out current logged in user session
-      operationId: UserController.logout
-      responses:
-        "200":
-          description: '{string} logout success'
+          description: id is empty
+        "500":
+          description: internal server error
 definitions:
-  models.Profile:
-    title: Profile
+  requests.Chat:
+    title: Chat
     type: object
     properties:
-      Address:
+      message:
         type: string
-      Age:
+      user_name:
+        type: string
+  requests.UpdateChat:
+    title: UpdateChat
+    type: object
+    properties:
+      message:
+        type: string
+  responses.Chat:
+    title: Chat
+    type: object
+    properties:
+      id:
         type: integer
         format: int64
-      Email:
+      message:
         type: string
-      Gender:
+      user_name:
         type: string
-  models.User:
-    title: User
+  responses.Chats:
+    title: Chats
     type: object
     properties:
-      Id:
-        type: string
-      Password:
-        type: string
-      Profile:
-        $ref: '#/definitions/models.Profile'
-      Username:
-        type: string
-tags:
-- name: user
-  description: |
-    Operations about Users
+      chats:
+        type: array
+        items:
+          $ref: '#/definitions/responses.Chat'

@@ -8,9 +8,9 @@ import (
 
 func init() {
 	ns := beego.NewNamespace("/v1",
-		beego.NSNamespace("/user",
+		beego.NSNamespace("/chat",
 			beego.NSInclude(
-				&controllers.UserController{},
+				&controllers.ChatController{},
 			),
 		),
 	)
