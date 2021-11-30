@@ -26,4 +26,7 @@ mysql> use chat_db;
 
 # テーブルの確認
 mysql> show tables;
+
+# カラムの確認
+mysql> SHOW COLUMNS FROM chats;
 ```
