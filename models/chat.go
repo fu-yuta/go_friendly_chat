@@ -1,8 +1,38 @@
 package models
 
 import (
+	"fmt"
 	"go_friendly_chat/controllers/requests"
+	"log"
+
+	"github.com/astaxie/beego"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
+
+var db *gorm.DB
+
+func init() {
+	db = setupDB()
+}
+
+func setupDB() *gorm.DB {
+	DBDriverName := beego.AppConfig.String("db_driver_name")
+	DBName := beego.AppConfig.String("db_name")
+	DBUserName := beego.AppConfig.String("db_user_name")
+	DBUserPassword := beego.AppConfig.String("db_user_password")
+	DBHost := beego.AppConfig.String("db_host")
+
+	connectionInfo := fmt.Sprintf("%s:%s@%s/%s", DBUserName, DBUserPassword, DBHost, DBName)
+	db, err := gorm.Open(DBDriverName, connectionInfo)
+
+	if err != nil {
+		log.Println(err.Error())
+	}
+
+	return db
+
+}
 
 type Chat struct {
 	Id       uint   `gorm:"primary_key"`
