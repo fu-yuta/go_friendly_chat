@@ -7,7 +7,7 @@ import (
 
 func init() {
 
-    beego.GlobalControllerRouter["go_friendly_chat/controllers:UserController"] = append(beego.GlobalControllerRouter["go_friendly_chat/controllers:UserController"],
+    beego.GlobalControllerRouter["go_friendly_chat/controllers:ChatController"] = append(beego.GlobalControllerRouter["go_friendly_chat/controllers:ChatController"],
         beego.ControllerComments{
             Method: "Post",
             Router: `/`,
@@ -16,7 +16,7 @@ func init() {
             Filters: nil,
             Params: nil})
 
-    beego.GlobalControllerRouter["go_friendly_chat/controllers:UserController"] = append(beego.GlobalControllerRouter["go_friendly_chat/controllers:UserController"],
+    beego.GlobalControllerRouter["go_friendly_chat/controllers:ChatController"] = append(beego.GlobalControllerRouter["go_friendly_chat/controllers:ChatController"],
         beego.ControllerComments{
             Method: "GetAll",
             Router: `/`,
@@ -25,47 +25,29 @@ func init() {
             Filters: nil,
             Params: nil})
 
-    beego.GlobalControllerRouter["go_friendly_chat/controllers:UserController"] = append(beego.GlobalControllerRouter["go_friendly_chat/controllers:UserController"],
+    beego.GlobalControllerRouter["go_friendly_chat/controllers:ChatController"] = append(beego.GlobalControllerRouter["go_friendly_chat/controllers:ChatController"],
         beego.ControllerComments{
             Method: "Get",
-            Router: `/:uid`,
+            Router: `/:id`,
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})
 
-    beego.GlobalControllerRouter["go_friendly_chat/controllers:UserController"] = append(beego.GlobalControllerRouter["go_friendly_chat/controllers:UserController"],
+    beego.GlobalControllerRouter["go_friendly_chat/controllers:ChatController"] = append(beego.GlobalControllerRouter["go_friendly_chat/controllers:ChatController"],
         beego.ControllerComments{
             Method: "Put",
-            Router: `/:uid`,
+            Router: `/:id`,
             AllowHTTPMethods: []string{"put"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})
 
-    beego.GlobalControllerRouter["go_friendly_chat/controllers:UserController"] = append(beego.GlobalControllerRouter["go_friendly_chat/controllers:UserController"],
+    beego.GlobalControllerRouter["go_friendly_chat/controllers:ChatController"] = append(beego.GlobalControllerRouter["go_friendly_chat/controllers:ChatController"],
         beego.ControllerComments{
             Method: "Delete",
-            Router: `/:uid`,
+            Router: `/:id`,
             AllowHTTPMethods: []string{"delete"},
-            MethodParams: param.Make(),
-            Filters: nil,
-            Params: nil})
-
-    beego.GlobalControllerRouter["go_friendly_chat/controllers:UserController"] = append(beego.GlobalControllerRouter["go_friendly_chat/controllers:UserController"],
-        beego.ControllerComments{
-            Method: "Login",
-            Router: `/login`,
-            AllowHTTPMethods: []string{"get"},
-            MethodParams: param.Make(),
-            Filters: nil,
-            Params: nil})
-
-    beego.GlobalControllerRouter["go_friendly_chat/controllers:UserController"] = append(beego.GlobalControllerRouter["go_friendly_chat/controllers:UserController"],
-        beego.ControllerComments{
-            Method: "Logout",
-            Router: `/logout`,
-            AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})
