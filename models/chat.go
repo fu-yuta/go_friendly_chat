@@ -41,17 +41,18 @@ type Chat struct {
 	Message  string `gorm:"size:255"`
 }
 
-func AddChat(c Chat) error {
+func AddChat(c Chat) (*Chat, error) {
 	if !db.NewRecord(c) {
 		log.Println("NewRecord error")
-		return errors.New("NewRecord error")
+		return nil, errors.New("NewRecord error")
 	}
 	err := db.Create(&c).Error
 	if err != nil {
 		log.Println("Create error")
-		return err
+		return nil, err
 	}
-	return nil
+
+	return &c, nil
 }
 
 func GetChat(id string) (*Chat, error) {
@@ -72,12 +73,12 @@ func GetAllChats() []Chat {
 	return allChats
 }
 
-func UpdateChat(id string, updateChat requests.UpdateChat) error {
+func UpdateChat(id string, updateChat requests.UpdateChat) (*Chat, error) {
 	var chat Chat
 	db.First(&chat, id)
 	if chat.Id == 0 {
 		log.Println("not found chat error")
-		return nil
+		return nil, errors.New("not found chat error")
 	}
 
 	chat.Message = updateChat.Message
@@ -85,24 +86,24 @@ func UpdateChat(id string, updateChat requests.UpdateChat) error {
 	err := db.Save(&chat).Error
 	if err != nil {
 		log.Println("Update error")
-		return err
+		return nil, err
 	}
-	return nil
+	return &chat, nil
 }
 
-func DeleteChat(id string) error {
+func DeleteChat(id string) (*Chat, error) {
 	var chat Chat
 	db.First(&chat, id)
 	if chat.Id == 0 {
 		log.Println("not found chat error")
-		return nil
+		return nil, errors.New("not found chat error")
 	}
 
 	err := db.Delete(&chat).Error
 	if err != nil {
 		log.Println("Delete error")
-		return err
+		return nil, err
 	}
 
-	return nil
+	return &chat, nil
 }

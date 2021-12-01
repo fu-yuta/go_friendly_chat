@@ -39,8 +39,11 @@
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": ""
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Chat"
+                        }
                     },
                     "403": {
                         "description": ": requests.Chat is empty"
@@ -104,8 +107,11 @@
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": ""
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Chat"
+                        }
                     },
                     "403": {
                         "description": ":id is not int"
@@ -130,8 +136,11 @@
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": ""
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Chat"
+                        }
                     },
                     "403": {
                         "description": "id is empty"
