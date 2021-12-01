@@ -118,6 +118,7 @@ func (c *ChatController) Put() {
 		updateChat, err := models.UpdateChat(id, req)
 		if err != nil {
 			c.Ctx.Output.SetStatus(500)
+			c.ServeJSON()
 		}
 		res := responses.Chat{
 			Id:       int(updateChat.Id),
@@ -147,6 +148,7 @@ func (c *ChatController) Delete() {
 		if err != nil {
 			log.Println("Delete error")
 			c.Ctx.Output.SetStatus(500)
+			c.ServeJSON()
 		}
 		res := responses.Chat{
 			Id:       int(deleteChat.Id),
