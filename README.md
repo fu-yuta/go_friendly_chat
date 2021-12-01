@@ -29,4 +29,7 @@ mysql> show tables;
 
 # カラムの確認
 mysql> SHOW COLUMNS FROM chats;
+
+＃ データの削除
+mysql> DELETE FROM chats;
 ```

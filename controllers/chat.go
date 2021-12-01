@@ -17,13 +17,12 @@ type ChatController struct {
 // @Title CreateChatMessage
 // @Description create message
 // @Param	body		body 	requests.Chat	true		"body for user content"
-// @Success 201
+// @Success 200 {object} responses.Chat
 // @Failure 403 : requests.Chat is empty
 // @Failure 500 internal server error
 // @router / [post]
 func (c *ChatController) Post() {
 	var chat requests.Chat
-	c.Ctx.Output.SetStatus(201)
 
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &chat)
 	if err != nil {
@@ -32,7 +31,7 @@ func (c *ChatController) Post() {
 		c.ServeJSON()
 	}
 
-	err = models.AddChat(models.Chat{
+	newChat, err := models.AddChat(models.Chat{
 		Id:       0,
 		UserName: chat.UserName,
 		Message:  chat.Message,
@@ -42,6 +41,13 @@ func (c *ChatController) Post() {
 		c.Ctx.Output.SetStatus(500)
 		c.ServeJSON()
 	}
+
+	res := responses.Chat{
+		Id:       int(newChat.Id),
+		UserName: newChat.UserName,
+		Message:  newChat.Message,
+	}
+	c.Data["json"] = res
 
 	c.ServeJSON()
 }
@@ -100,7 +106,7 @@ func (c *ChatController) Get() {
 // @Description update the chat
 // @Param	id		path 	string	true
 // @Param	body		body 	requests.UpdateChat	true
-// @Success 201
+// @Success 200 {object} responses.Chat
 // @Failure 403 :id is not int
 // @Failure 500 internal server error
 // @router /:id [put]
@@ -109,11 +115,16 @@ func (c *ChatController) Put() {
 	if id != "" {
 		var req requests.UpdateChat
 		json.Unmarshal(c.Ctx.Input.RequestBody, &req)
-		err := models.UpdateChat(id, req)
-		c.Ctx.Output.SetStatus(201)
+		updateChat, err := models.UpdateChat(id, req)
 		if err != nil {
 			c.Ctx.Output.SetStatus(500)
 		}
+		res := responses.Chat{
+			Id:       int(updateChat.Id),
+			UserName: updateChat.UserName,
+			Message:  updateChat.Message,
+		}
+		c.Data["json"] = res
 		c.ServeJSON()
 	} else {
 		log.Println("id is empty error")
@@ -125,19 +136,24 @@ func (c *ChatController) Put() {
 // @Title Delete
 // @Description delete the chat
 // @Param	id		path 	string	true
-// @Success 201
+// @Success 200 {object} responses.Chat
 // @Failure 403 id is empty
 // @Failure 500 internal server error
 // @router /:id [delete]
 func (c *ChatController) Delete() {
 	id := c.GetString(":id")
 	if id != "" {
-		err := models.DeleteChat(id)
-		c.Ctx.Output.SetStatus(201)
+		deleteChat, err := models.DeleteChat(id)
 		if err != nil {
 			log.Println("Delete error")
 			c.Ctx.Output.SetStatus(500)
 		}
+		res := responses.Chat{
+			Id:       int(deleteChat.Id),
+			UserName: deleteChat.UserName,
+			Message:  deleteChat.Message,
+		}
+		c.Data["json"] = res
 		c.ServeJSON()
 	} else {
 		log.Println("id is empty error")

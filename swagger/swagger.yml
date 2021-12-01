@@ -26,8 +26,10 @@ paths:
         schema:
           $ref: '#/definitions/requests.Chat'
       responses:
-        "201":
+        "200":
           description: ""
+          schema:
+            $ref: '#/definitions/responses.Chat'
         "403":
           description: ': requests.Chat is empty'
         "500":
@@ -68,8 +70,10 @@ paths:
         schema:
           $ref: '#/definitions/requests.UpdateChat'
       responses:
-        "201":
+        "200":
           description: ""
+          schema:
+            $ref: '#/definitions/responses.Chat'
         "403":
           description: :id is not int
         "500":
@@ -85,8 +89,10 @@ paths:
         description: "true"
         type: string
       responses:
-        "201":
+        "200":
           description: ""
+          schema:
+            $ref: '#/definitions/responses.Chat'
         "403":
           description: id is empty
         "500":
